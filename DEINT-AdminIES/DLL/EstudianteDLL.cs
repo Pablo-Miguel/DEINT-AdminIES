@@ -15,25 +15,31 @@ namespace DEINT_AdminIES.DLL
         {
             conexion = new Conexion();
         }
-        public bool Agregar(string nombreCiclo)
+        public bool Agregar(string nombre, string primerApell, string segundoApell, string email, string ciclo)
         {
-            return conexion.EjecutarComandoSinRetornarDatos($"INSERT INTO Ciclo(nombre) VALUES ('{nombreCiclo}')");
+            return conexion.EjecutarComandoSinRetornarDatos($"INSERT INTO estudiante " +
+                $"(nombre, primerApell, segundoApell, email, ciclo) " +
+                $"VALUES ('{nombre}', '{primerApell}', '{segundoApell}', '{email}', '{ciclo}')");
         }
 
-        public DataSet MostrarCiclos()
+        public DataSet MostrarEstudiantes()
         {
-            SqlCommand sentencia = new SqlCommand("SELECT * FROM ciclo");
+            SqlCommand sentencia = new SqlCommand("SELECT * FROM estudiante");
             return conexion.EjecutarSentencia(sentencia);
         }
 
         internal void Borrar(string id)
         {
-            conexion.EjecutarComandoSinRetornarDatos($"DELETE FROM ciclo WHERE id={id}");
+            conexion.EjecutarComandoSinRetornarDatos($"DELETE FROM estudiante WHERE id={id}");
         }
 
-        internal void Modificar(string id, string nombre)
+        internal void Modificar(string id, string nombre, string primerApell, string segundoApell, string email, string ciclo)
         {
-            conexion.EjecutarComandoSinRetornarDatos($"UPDATE ciclo SET nombre='{nombre}' WHERE id={id}");
+            conexion.EjecutarComandoSinRetornarDatos($"UPDATE ciclo SET nombre='{nombre}', " +
+                $"primerApellido='{primerApell}', " +
+                $"segundoApellido='{segundoApell}', " +
+                $"email='{email}', ciclo='{ciclo}' " +
+                $"WHERE id={id}");
         }
     }
 }

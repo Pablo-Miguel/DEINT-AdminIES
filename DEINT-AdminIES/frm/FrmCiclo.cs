@@ -25,8 +25,7 @@ namespace DEINT_AdminIES.frm
         {
             if (!tbCiclo.Text.Equals(""))
             {
-                CicloDLL cicloDLL = new CicloDLL();
-                cicloDLL.Agregar(tbCiclo.Text);
+                ciclodll.Agregar(tbCiclo.Text);
                 dgCiclo.DataSource = ciclodll.MostrarCiclos().Tables[0];
             }
             else {
@@ -46,8 +45,7 @@ namespace DEINT_AdminIES.frm
         {
             if (!tbCiclo.Text.Equals("") && !tbID.Text.Equals(""))
             {
-                CicloDLL cicloDLL = new CicloDLL();
-                cicloDLL.Modificar(tbID.Text, tbCiclo.Text);
+                ciclodll.Modificar(tbID.Text, tbCiclo.Text);
                 dgCiclo.DataSource = ciclodll.MostrarCiclos().Tables[0];
             }
             else
@@ -60,8 +58,7 @@ namespace DEINT_AdminIES.frm
         {
             if (!tbID.Text.Equals(""))
             {
-                CicloDLL cicloDLL = new CicloDLL();
-                cicloDLL.Borrar(tbID.Text);
+                ciclodll.Borrar(tbID.Text);
                 dgCiclo.DataSource = ciclodll.MostrarCiclos().Tables[0];
                 tbID.Clear();
                 tbCiclo.Clear();
