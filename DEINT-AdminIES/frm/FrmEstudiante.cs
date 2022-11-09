@@ -17,7 +17,6 @@ namespace DEINT_AdminIES.frm
     {
         private EstudianteDLL estudianteDLL;
         private CicloDLL ciclodll;
-        private byte[] imgaenByte;
 
         public FrmEstudiante()
         {
@@ -38,7 +37,8 @@ namespace DEINT_AdminIES.frm
             if (!tbNombre.Text.Equals("") && !tbPrimerApellido.Text.Equals("") && !tbCorreo.Text.Equals("") && !cbCiclo.Text.Equals(""))
             {
                 estudianteDLL.Agregar(tbNombre.Text, tbPrimerApellido.Text, tbSegundoApllido.Text, 
-                    tbCorreo.Text, cbCiclo.SelectedValue.ToString());
+                    tbCorreo.Text, cbCiclo.SelectedValue.ToString(), ImageToBase64(pbImagen.Image, 
+                    System.Drawing.Imaging.ImageFormat.Bmp));
                 dgEstudiante.DataSource = estudianteDLL.MostrarEstudiantes().Tables[0];
             }
             else
@@ -52,7 +52,8 @@ namespace DEINT_AdminIES.frm
             if (!tbClave.Text.Equals("") && !tbNombre.Text.Equals("") && !tbPrimerApellido.Text.Equals("") && !tbCorreo.Text.Equals("") && !cbCiclo.Text.Equals(""))
             {
                 estudianteDLL.Modificar(tbClave.Text, tbNombre.Text, tbPrimerApellido.Text, tbSegundoApllido.Text, 
-                    tbCorreo.Text, cbCiclo.SelectedValue.ToString());
+                    tbCorreo.Text, cbCiclo.SelectedValue.ToString(), ImageToBase64(pbImagen.Image,
+                    System.Drawing.Imaging.ImageFormat.Bmp));
                 dgEstudiante.DataSource = estudianteDLL.MostrarEstudiantes().Tables[0];
             }
             else
@@ -93,7 +94,6 @@ namespace DEINT_AdminIES.frm
                 pbImagen.Image = Image.FromStream(selectorImagen.OpenFile());
                 MemoryStream memoryStream = new MemoryStream();
                 pbImagen.Image.Save(memoryStream, System.Drawing.Imaging.ImageFormat.Png);
-                imgaenByte = memoryStream.ToArray();
             }
         }
 
@@ -131,7 +131,8 @@ namespace DEINT_AdminIES.frm
                 tbPrimerApellido.Text = dgEstudiante.Rows[e.RowIndex].Cells[2].Value.ToString();
                 tbSegundoApllido.Text = dgEstudiante.Rows[e.RowIndex].Cells[3].Value.ToString();
                 tbCorreo.Text = dgEstudiante.Rows[e.RowIndex].Cells[4].Value.ToString();
-                if (!tbClave.Text.ToString().Equals("")) { 
+                if (!tbClave.Text.ToString().Equals("")) {
+                    pbImagen.Image = Base64ToImage(dgEstudiante.Rows[e.RowIndex].Cells[5].Value.ToString());
                     cbCiclo.Text = estudianteDLL.obtenerCiclo(tbClave.Text).Tables[0].Rows[0]["nombre"].ToString();
                 }
                 

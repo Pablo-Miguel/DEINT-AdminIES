@@ -15,13 +15,14 @@ namespace DEINT_AdminIES.DLL
         {
             conexion = new Conexion();
         }
-        public bool Agregar(string nombre, string primerApell, string segundoApell, string email, string ciclo)
+        public bool Agregar(string nombre, string primerApell, string segundoApell, 
+            string email, string ciclo, string imagen)
         {
             Boolean estado = false;
 
             if (conexion.EjecutarComandoSinRetornarDatos($"INSERT INTO estudiante " +
-                $"(nombre, primerapellido, segundoapellido, email) " +
-                $"VALUES ('{nombre}', '{primerApell}', '{segundoApell}', '{email}')")) {
+                $"(nombre, primerapellido, segundoapellido, email, foto) " +
+                $"VALUES ('{nombre}', '{primerApell}', '{segundoApell}', '{email}', '{imagen}')")) {
                 estado = true;
             }
 
@@ -44,18 +45,20 @@ namespace DEINT_AdminIES.DLL
 
         internal void Borrar(string id)
         {
-            conexion.EjecutarComandoSinRetornarDatos($"DELETE FROM estudiante WHERE id={id}");
             conexion.EjecutarComandoSinRetornarDatos($"DELETE FROM Alumno_Asignar_Ciclo WHERE id_estudiante={id}");
+            conexion.EjecutarComandoSinRetornarDatos($"DELETE FROM estudiante WHERE id={id}");
         }
 
-        internal void Modificar(string id, string nombre, string primerApell, string segundoApell, string email, string ciclo)
+        internal void Modificar(string id, string nombre, string primerApell, string segundoApell, 
+            string email, string ciclo, string imagen)
         {
-            conexion.EjecutarComandoSinRetornarDatos($"UPDATE ciclo SET nombre='{nombre}', " +
+            conexion.EjecutarComandoSinRetornarDatos($"UPDATE estudiante SET nombre='{nombre}', " +
                 $"primerapellido='{primerApell}', " +
                 $"segundoapellido='{segundoApell}', " +
-                $"email='{email}'" +
+                $"email='{email}', " +
+                $"foto='{imagen}' " +
                 $"WHERE id={id}");
-            conexion.EjecutarComandoSinRetornarDatos($"UPDATE Alumno_Asignar_Ciclo SET id_ciclo='{nombre}', " +
+            conexion.EjecutarComandoSinRetornarDatos($"UPDATE Alumno_Asignar_Ciclo SET id_ciclo='{ciclo}', " +
                 $"WHERE id_estudiante={id}");
         }
 
