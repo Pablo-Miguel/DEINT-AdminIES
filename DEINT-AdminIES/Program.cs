@@ -17,7 +17,7 @@ namespace DEINT_AdminIES
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new FrmEstudiante());
+            Application.Run(new Form1());
         }
     }
 }

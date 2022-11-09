@@ -214,7 +214,7 @@
             this.dgEstudiante.Name = "dgEstudiante";
             this.dgEstudiante.Size = new System.Drawing.Size(759, 150);
             this.dgEstudiante.TabIndex = 18;
-            this.dgEstudiante.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgEstudiante_CellContentClick);
+            this.dgEstudiante.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgEstudiante_CellClick);
             // 
             // FrmEstudiante
             // 

@@ -16,12 +16,20 @@ namespace DEINT_AdminIES.frm
     public partial class FrmEstudiante : Form
     {
         private EstudianteDLL estudianteDLL;
+        private CicloDLL ciclodll;
         private byte[] imgaenByte;
 
         public FrmEstudiante()
         {
             estudianteDLL = new EstudianteDLL();
+            ciclodll = new CicloDLL();
             InitializeComponent();
+            DataTable dt = ciclodll.MostrarCiclos().Tables[0];
+
+            cbCiclo.ValueMember = "id";
+            cbCiclo.DisplayMember = "nombre";
+            cbCiclo.DataSource = dt;
+
             dgEstudiante.DataSource = estudianteDLL.MostrarEstudiantes().Tables[0];
         }
 
@@ -29,7 +37,8 @@ namespace DEINT_AdminIES.frm
         {
             if (!tbNombre.Text.Equals("") && !tbPrimerApellido.Text.Equals("") && !tbCorreo.Text.Equals("") && !cbCiclo.Text.Equals(""))
             {
-                estudianteDLL.Agregar(tbNombre.Text, tbPrimerApellido.Text, tbSegundoApllido.Text, tbCorreo.Text, cbCiclo.Text);
+                estudianteDLL.Agregar(tbNombre.Text, tbPrimerApellido.Text, tbSegundoApllido.Text, 
+                    tbCorreo.Text, cbCiclo.SelectedValue.ToString());
                 dgEstudiante.DataSource = estudianteDLL.MostrarEstudiantes().Tables[0];
             }
             else
@@ -42,7 +51,8 @@ namespace DEINT_AdminIES.frm
         {
             if (!tbClave.Text.Equals("") && !tbNombre.Text.Equals("") && !tbPrimerApellido.Text.Equals("") && !tbCorreo.Text.Equals("") && !cbCiclo.Text.Equals(""))
             {
-                estudianteDLL.Modificar(tbClave.Text, tbNombre.Text, tbPrimerApellido.Text, tbSegundoApllido.Text, tbCorreo.Text, cbCiclo.Text);
+                estudianteDLL.Modificar(tbClave.Text, tbNombre.Text, tbPrimerApellido.Text, tbSegundoApllido.Text, 
+                    tbCorreo.Text, cbCiclo.SelectedValue.ToString());
                 dgEstudiante.DataSource = estudianteDLL.MostrarEstudiantes().Tables[0];
             }
             else
@@ -71,15 +81,7 @@ namespace DEINT_AdminIES.frm
 
         private void dgEstudiante_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
-            if (e.RowIndex >= 0)
-            {
-                tbClave.Text = dgEstudiante.Rows[e.RowIndex].Cells[0].Value.ToString();
-                tbNombre.Text = dgEstudiante.Rows[e.RowIndex].Cells[1].Value.ToString();
-                tbPrimerApellido.Text = dgEstudiante.Rows[e.RowIndex].Cells[2].Value.ToString();
-                tbSegundoApllido.Text = dgEstudiante.Rows[e.RowIndex].Cells[3].Value.ToString();
-                tbCorreo.Text = dgEstudiante.Rows[e.RowIndex].Cells[4].Value.ToString();
-                cbCiclo.Text = dgEstudiante.Rows[e.RowIndex].Cells[5].Value.ToString();
-            }
+            
         }
 
         private void btnExaminar_Click(object sender, EventArgs e)
@@ -120,5 +122,20 @@ namespace DEINT_AdminIES.frm
             }
         }
 
+        private void dgEstudiante_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex >= 0)
+            {
+                tbClave.Text = dgEstudiante.Rows[e.RowIndex].Cells[0].Value.ToString();
+                tbNombre.Text = dgEstudiante.Rows[e.RowIndex].Cells[1].Value.ToString();
+                tbPrimerApellido.Text = dgEstudiante.Rows[e.RowIndex].Cells[2].Value.ToString();
+                tbSegundoApllido.Text = dgEstudiante.Rows[e.RowIndex].Cells[3].Value.ToString();
+                tbCorreo.Text = dgEstudiante.Rows[e.RowIndex].Cells[4].Value.ToString();
+                if (!tbClave.Text.ToString().Equals("")) { 
+                    cbCiclo.Text = estudianteDLL.obtenerCiclo(tbClave.Text).Tables[0].Rows[0]["nombre"].ToString();
+                }
+                
+            }
+        }
     }
 }

@@ -34,5 +34,6 @@ namespace DEINT_AdminIES.DLL
         {
             conexion.EjecutarComandoSinRetornarDatos($"UPDATE ciclo SET nombre='{nombre}' WHERE id={id}");
         }
+
     }
 }
