@@ -34,11 +34,11 @@ namespace DEINT_AdminIES.frm
 
         private void btnAgregar_Click(object sender, EventArgs e)
         {
-            if (!tbNombre.Text.Equals("") && !tbPrimerApellido.Text.Equals("") && !tbCorreo.Text.Equals("") && !cbCiclo.Text.Equals(""))
+            if (pbImagen.Image != null && !tbNombre.Text.Equals("") && !tbPrimerApellido.Text.Equals("") && !tbCorreo.Text.Equals("") && !cbCiclo.Text.Equals(""))
             {
                 estudianteDLL.Agregar(tbNombre.Text, tbPrimerApellido.Text, tbSegundoApllido.Text, 
                     tbCorreo.Text, cbCiclo.SelectedValue.ToString(), ImageToBase64(pbImagen.Image, 
-                    System.Drawing.Imaging.ImageFormat.Bmp));
+                    System.Drawing.Imaging.ImageFormat.Png));
                 dgEstudiante.DataSource = estudianteDLL.MostrarEstudiantes().Tables[0];
             }
             else
@@ -53,7 +53,7 @@ namespace DEINT_AdminIES.frm
             {
                 estudianteDLL.Modificar(tbClave.Text, tbNombre.Text, tbPrimerApellido.Text, tbSegundoApllido.Text, 
                     tbCorreo.Text, cbCiclo.SelectedValue.ToString(), ImageToBase64(pbImagen.Image,
-                    System.Drawing.Imaging.ImageFormat.Bmp));
+                    System.Drawing.Imaging.ImageFormat.Png));
                 dgEstudiante.DataSource = estudianteDLL.MostrarEstudiantes().Tables[0];
             }
             else
@@ -80,15 +80,14 @@ namespace DEINT_AdminIES.frm
             Close();
         }
 
-        private void dgEstudiante_CellContentClick(object sender, DataGridViewCellEventArgs e)
-        {
-            
-        }
-
         private void btnExaminar_Click(object sender, EventArgs e)
         {
             OpenFileDialog selectorImagen = new OpenFileDialog();
             selectorImagen.Title = "Seleccionar imagen";
+            selectorImagen.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyPictures);
+            selectorImagen.Filter = "Imagenes|*.png";
+            selectorImagen.FilterIndex = 2;
+            selectorImagen.RestoreDirectory = true;
 
             if (selectorImagen.ShowDialog() == DialogResult.OK) {
                 pbImagen.Image = Image.FromStream(selectorImagen.OpenFile());
